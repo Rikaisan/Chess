@@ -4,13 +4,13 @@ Board::Board() {
 	setupSprite();
 }
 
-void Board::draw(sf::RenderWindow &window) {
-	if (m_boardSprite.getScale() == sf::Vector2f(1, 1)) {
-		auto windowSize = window.getSize();
-		m_boardSprite.setScale(windowSize.x / 8, windowSize.y / 8);
-	}
+void Board::setScale(sf::Vector2u containerSize) {
+	m_boardSprite.setScale(containerSize.x / 8.0f, containerSize.y / 8.0f);
+}
 
-	window.draw(m_boardSprite);
+const sf::Sprite& Board::getSprite()
+{
+	return m_boardSprite;
 }
 
 void Board::setupSprite() {

@@ -3,7 +3,8 @@
 Game::Game() {
 	m_window.create(sf::VideoMode(m_windowSize.x, m_windowSize.y), "Chess", sf::Style::Close);
 	m_window.setFramerateLimit(60);
-	m_windowSize = m_window.getSize(); // Cache window size for operations
+
+	m_board.setScale(m_windowSize);
 }
 
 void Game::run() {
@@ -15,8 +16,10 @@ void Game::run() {
 		}
 
 		m_window.clear(sf::Color::Black);
-		// Content
-		m_board.draw(m_window);
+
+		//m_board.draw(m_window);
+		m_window.draw(m_board.getSprite());
+
 		m_window.display();
 	}
 }
