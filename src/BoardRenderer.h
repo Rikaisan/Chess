@@ -9,12 +9,13 @@
 
 using TexturePtr = std::shared_ptr<sf::Texture>;
 
-class Board
+class BoardRenderer
 {
 public:
-	Board();
+	BoardRenderer(bool drawCoordinates = true);
 	void setRenderSize(uint32_t containerHeight);
-	const sf::Sprite& getSprite();
+	const sf::Sprite& getCurrentPositionSprite();
+	void updatePosition(const std::array<Piece, 64>& pieces);
 private:
 	std::array<sf::Color, 2> m_boardColors = { sf::Color(0xF0D9B5FF), sf::Color(0xB58863FF) }; // Light, Dark
 	std::unordered_map<std::string, TexturePtr> m_textureCache;
@@ -25,16 +26,23 @@ private:
 	uint32_t m_containerSize;
 	float m_cellSize;
 	float m_pieceScale = 1;
+
 	std::string m_spritesDirectory = "assets/piece_packs/";
 	std::string m_selectedPiecePack = "clean";
 	std::unordered_map<Piece::Type, std::array<sf::Sprite, 2>> m_pieceSprites;
+
+	bool m_renderCoordinates = true;
+	std::string m_fontFile = "assets/fonts/Poppins-Medium.ttf";
+	sf::Font m_font;
+	uint32_t m_fontSize;
+	float m_coordinatesPadding = 7.0f;
 
 	void setupBoardSprite();
 	void setupPieceSprites();
 
 	void drawPiece(Piece piece, int8_t square, sf::RenderTarget& target);
 	void drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target);
+	void drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position = 0);
 	void drawCurrentPiecePack(sf::RenderTarget& target);
 
 };
-

@@ -1,12 +1,15 @@
-#include "Board.h"
+#include "BoardRenderer.h"
 
-Board::Board() {
+BoardRenderer::BoardRenderer(bool drawCoordinates) {
+	m_renderCoordinates = drawCoordinates;
 	setupBoardSprite();
+	m_font.loadFromFile(m_fontFile);
 }
 
-void Board::setRenderSize(uint32_t containerHeight) {
+void BoardRenderer::setRenderSize(uint32_t containerHeight) {
 	m_containerSize = containerHeight;
 	m_cellSize = containerHeight / 8.0f;
+	m_fontSize = m_cellSize / 5.0f;
 
 	m_emptyBoardSprite.setScale(m_cellSize, m_cellSize);
 
@@ -22,22 +25,37 @@ void Board::setRenderSize(uint32_t containerHeight) {
 	}
 }
 
-const sf::Sprite& Board::getSprite()
-{
+const sf::Sprite& BoardRenderer::getCurrentPositionSprite() {
+	return m_lastPositionSprite;
+}
+
+void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
 	sf::RenderTexture boardRenderer;
 	boardRenderer.create(m_containerSize, m_containerSize);
 	boardRenderer.draw(m_emptyBoardSprite);
-	drawCurrentPiecePack(boardRenderer);
+	for (int8_t i{ 0 }; i < 64; ++i) {
+		if (m_renderCoordinates) {
+			if (i % 8 == 0) {
+				char rank = '1' + i / 8;
+				drawText(std::string(1, rank), i, boardRenderer, 1);
+			}
+			if (i / 8 == 7) {
+				char file = 'a' + i % 8;
+				drawText(std::string(1, file), i, boardRenderer, 4);
+			}
+		}
+
+		drawPiece(pieces.at(i), i, boardRenderer);
+	}
+
 	boardRenderer.display();
 
 	TexturePtr lastPositionTexture = std::make_shared<sf::Texture>(boardRenderer.getTexture());
 	m_textureCache["lastPosition"] = lastPositionTexture;
-	m_lastPositionSprite = sf::Sprite(*lastPositionTexture);
-
-	return m_lastPositionSprite;
+	m_lastPositionSprite = sf::Sprite(*lastPositionTexture); // Create new sprite in case container size changes
 }
 
-void Board::setupBoardSprite() {
+void BoardRenderer::setupBoardSprite() {
 	// Setup board texture as an 8x8 Texture which is expected to be scaled up later
 	sf::RenderTexture boardTexture;
 	boardTexture.create(8, 8);
@@ -60,7 +78,7 @@ void Board::setupBoardSprite() {
 	m_emptyBoardSprite = sf::Sprite(*emptyBoard);
 }
 
-void Board::setupPieceSprites() {
+void BoardRenderer::setupPieceSprites() {
 	// Cache piece sprites to only have 1 per piece loaded at all times
 	sf::Image spriteSheet;
 	spriteSheet.loadFromFile(m_spritesDirectory + m_selectedPiecePack + ".png");
@@ -84,19 +102,50 @@ void Board::setupPieceSprites() {
 
 }
 
-void Board::drawPiece(Piece piece, int8_t square, sf::RenderTarget& target) {
+void BoardRenderer::drawPiece(Piece piece, int8_t square, sf::RenderTarget& target) {
 	if (square < 0 || square >= 64 || piece.type == Piece::Type::None) return;
 	auto& sprite = m_pieceSprites.at(piece.type).at(piece.color == Piece::Color::White ? 0 : 1);
 	drawSprite(sprite, square, target);
 }
 
-void Board::drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target) {
+void BoardRenderer::drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target) {
 	if (square < 0 || square >= 64) return;
 	sprite.setPosition(square % 8 * m_cellSize + m_cellSize / 2.0f, square / 8 * m_cellSize + m_cellSize / 2.0f);
 	target.draw(sprite);
 }
 
-void Board::drawCurrentPiecePack(sf::RenderTarget& target) {
+void BoardRenderer::drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position) {
+	if (square < 0 || square >= 64) return;
+
+	sf::Text text;
+	text.setFont(m_font);
+	text.setCharacterSize(m_fontSize);
+	text.setFillColor(m_boardColors.at((square - (square / 8 % 2 == 0)) % 2 != 0));
+	text.setString(string);
+
+	// Center origin
+	sf::FloatRect textRect = text.getLocalBounds();
+	text.setOrigin(textRect.left + textRect.width / 2.0f,
+		textRect.top + textRect.height / 2.0f);
+
+	sf::Vector2f pos;
+	if (position == 0) pos = sf::Vector2f(square % 8 * m_cellSize + m_cellSize / 2.0f, square / 8 * m_cellSize + m_cellSize / 2.0f);
+
+	if (position % 2 == 0)
+		pos.x = (1 + square % 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Right Positions
+	else
+		pos.x = square % 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Left Positions
+
+	if (position > 2)
+		pos.y = (1 + square / 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Bottom positions
+	else
+		pos.y = square / 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Upper positions
+
+		text.setPosition(pos);
+	target.draw(text);
+}
+
+void BoardRenderer::drawCurrentPiecePack(sf::RenderTarget& target) {
 	int8_t currentPosition = 0;
 	for (auto& [type, sprites] : m_pieceSprites) {
 		for (auto& sprite : sprites) {

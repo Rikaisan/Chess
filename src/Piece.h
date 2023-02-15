@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <tuple>
 
 struct Piece {
 	enum class Type {
@@ -20,9 +21,10 @@ struct Piece {
 	};
 
 	static std::map<Type, std::string> STRING_MAPPINGS;
+	static std::map<char, Type> FEN_MAPPINGS;
 
 	Type type;
 	Color color;
 
-	Piece(Color color, Type type);
+	Piece(Type type = Piece::Type::None, Color color = Piece::Color::White);
 };

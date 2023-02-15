@@ -92,15 +92,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BoardInterface.cpp" />
+    <ClCompile Include="src\BoardEngine.cpp" />
     <ClCompile Include="src\Piece.cpp" />
-    <ClCompile Include="src\Board.cpp" />
+    <ClCompile Include="src\BoardRenderer.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BoardInterface.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\BoardEngine.h" />
     <ClInclude Include="src\Piece.h" />
-    <ClInclude Include="src\Board.h" />
+    <ClInclude Include="src\BoardRenderer.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -112,7 +119,12 @@
     <Media Include="assets\chime.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\icon.ico" />
+    <Image Include="assets\icon.png" />
     <Image Include="assets\piece_packs\clean.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Chess.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
