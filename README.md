@@ -5,7 +5,8 @@ This is a work in progress chess game written in C++ using SFML.
 ## Feature TODO Checklist
 
  - [x] Blank board render
- - [ ] Rendering pieces & *Forsyth-Edwards Notation* support to load board states
+ - [ ] Rendering pieces
+ - [ ] *Forsyth-Edwards Notation* support to load board states
  - [ ] Working Pieces
  - [ ] Option to enable and disable algebraic notation on the board
  - [ ] Castling
