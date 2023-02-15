@@ -13,7 +13,7 @@ class Board
 {
 public:
 	Board();
-	void setRenderSize(uint32_t containerSize);
+	void setRenderSize(uint32_t containerHeight);
 	const sf::Sprite& getSprite();
 private:
 	std::array<sf::Color, 2> m_boardColors = { sf::Color(0xF0D9B5FF), sf::Color(0xB58863FF) }; // Light, Dark
@@ -34,7 +34,7 @@ private:
 
 	void drawPiece(Piece piece, int8_t square, sf::RenderTarget& target);
 	void drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target);
-	void drawPiecePack(sf::RenderTarget& target);
+	void drawCurrentPiecePack(sf::RenderTarget& target);
 
 };
 

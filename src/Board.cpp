@@ -4,9 +4,9 @@ Board::Board() {
 	setupBoardSprite();
 }
 
-void Board::setRenderSize(uint32_t containerSize) {
-	m_containerSize = containerSize;
-	m_cellSize = containerSize / 8.0f;
+void Board::setRenderSize(uint32_t containerHeight) {
+	m_containerSize = containerHeight;
+	m_cellSize = containerHeight / 8.0f;
 
 	m_emptyBoardSprite.setScale(m_cellSize, m_cellSize);
 
@@ -27,7 +27,7 @@ const sf::Sprite& Board::getSprite()
 	sf::RenderTexture boardRenderer;
 	boardRenderer.create(m_containerSize, m_containerSize);
 	boardRenderer.draw(m_emptyBoardSprite);
-	drawPiecePack(boardRenderer);
+	drawCurrentPiecePack(boardRenderer);
 	boardRenderer.display();
 
 	TexturePtr lastPositionTexture = std::make_shared<sf::Texture>(boardRenderer.getTexture());
@@ -96,7 +96,7 @@ void Board::drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& targ
 	target.draw(sprite);
 }
 
-void Board::drawPiecePack(sf::RenderTarget& target) {
+void Board::drawCurrentPiecePack(sf::RenderTarget& target) {
 	int8_t currentPosition = 0;
 	for (auto& [type, sprites] : m_pieceSprites) {
 		for (auto& sprite : sprites) {
