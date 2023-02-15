@@ -47,7 +47,7 @@ void Board::setupBoardSprite() {
 	lightSquare.setFillColor(m_boardColors.at(0));
 	for (size_t i{ 0 }; i < 8; ++i) {
 		for (size_t j{ 0 }; j < 8; ++j) {
-			if (i % 2 == 0 && j % 2 == 0 || i % 2 != 0 && j % 2 != 0) {
+			if ((i + j) % 2 == 0) {
 				lightSquare.setPosition(i, j);
 				boardTexture.draw(lightSquare);
 			}

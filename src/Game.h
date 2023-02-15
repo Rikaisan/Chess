@@ -10,5 +10,5 @@ public:
 private:
 	Board m_board;
 	sf::RenderWindow m_window;
-	sf::Vector2u m_windowSize = { 640, 640 } ;
+	sf::Vector2u m_windowSize = { 880, 880 } ;
 };
