@@ -129,19 +129,23 @@ void BoardRenderer::drawText(std::string string, int8_t square, sf::RenderTarget
 		textRect.top + textRect.height / 2.0f);
 
 	sf::Vector2f pos;
-	if (position == 0) pos = sf::Vector2f(square % 8 * m_cellSize + m_cellSize / 2.0f, square / 8 * m_cellSize + m_cellSize / 2.0f);
 
-	if (position % 2 == 0)
-		pos.x = (1 + square % 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Right Positions
-	else
-		pos.x = square % 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Left Positions
+	if (position == 0) {
+		pos = sf::Vector2f(square % 8 * m_cellSize + m_cellSize / 2.0f, square / 8 * m_cellSize + m_cellSize / 2.0f);
+	}
+	else {
+		if (position % 2 == 0)
+			pos.x = (1 + square % 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Right Positions
+		else
+			pos.x = square % 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Left Positions
 
-	if (position > 2)
-		pos.y = (1 + square / 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Bottom positions
-	else
-		pos.y = square / 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Upper positions
+		if (position > 2)
+			pos.y = (1 + square / 8) * m_cellSize - m_cellSize / m_coordinatesPadding; // Bottom positions
+		else
+			pos.y = square / 8 * m_cellSize + m_cellSize / m_coordinatesPadding; // Upper positions
+	}
 
-		text.setPosition(pos);
+	text.setPosition(pos);
 	target.draw(text);
 }
 

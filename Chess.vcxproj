@@ -126,6 +126,9 @@
   <ItemGroup>
     <ResourceCompile Include="Chess.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\Poppins-Medium.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
