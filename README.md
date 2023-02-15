@@ -1,6 +1,6 @@
 # C++ Chess
 
-This is a work in progress desktop chess game written in C++ using SFML.
+This is a work in progress chess game written in C++ using SFML.
 
 ## Feature TODO Checklist
 
