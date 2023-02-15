@@ -24,12 +24,18 @@
     <ClCompile Include="src\Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Piece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,76 +51,7 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\pieces\pack_02\b_bishop.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\b_king.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\b_knight.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\b_pawn.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\b_queen.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\b_rook.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_bishop.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_king.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_knight.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_pawn.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_queen.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_02\w_rook.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_rook.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_bishop.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_king.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_knight.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_pawn.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_queen.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\b_rook.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_bishop.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_king.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_knight.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_pawn.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\pieces\pack_01\w_queen.png">
+    <Image Include="assets\piece_packs\clean.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

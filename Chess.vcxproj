@@ -52,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)intermediates\$(Configuration)-$(Platform)\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)intermediates\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -92,11 +92,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Piece.cpp" />
     <ClCompile Include="src\Board.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Piece.h" />
     <ClInclude Include="src\Board.h" />
     <ClInclude Include="src\Game.h" />
   </ItemGroup>
@@ -110,30 +112,7 @@
     <Media Include="assets\chime.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\pieces\pack_01\b_bishop.png" />
-    <Image Include="assets\pieces\pack_01\b_king.png" />
-    <Image Include="assets\pieces\pack_01\b_knight.png" />
-    <Image Include="assets\pieces\pack_01\b_pawn.png" />
-    <Image Include="assets\pieces\pack_01\b_queen.png" />
-    <Image Include="assets\pieces\pack_01\b_rook.png" />
-    <Image Include="assets\pieces\pack_01\w_bishop.png" />
-    <Image Include="assets\pieces\pack_01\w_king.png" />
-    <Image Include="assets\pieces\pack_01\w_knight.png" />
-    <Image Include="assets\pieces\pack_01\w_pawn.png" />
-    <Image Include="assets\pieces\pack_01\w_queen.png" />
-    <Image Include="assets\pieces\pack_01\w_rook.png" />
-    <Image Include="assets\pieces\pack_02\b_bishop.png" />
-    <Image Include="assets\pieces\pack_02\b_king.png" />
-    <Image Include="assets\pieces\pack_02\b_knight.png" />
-    <Image Include="assets\pieces\pack_02\b_pawn.png" />
-    <Image Include="assets\pieces\pack_02\b_queen.png" />
-    <Image Include="assets\pieces\pack_02\b_rook.png" />
-    <Image Include="assets\pieces\pack_02\w_bishop.png" />
-    <Image Include="assets\pieces\pack_02\w_king.png" />
-    <Image Include="assets\pieces\pack_02\w_knight.png" />
-    <Image Include="assets\pieces\pack_02\w_pawn.png" />
-    <Image Include="assets\pieces\pack_02\w_queen.png" />
-    <Image Include="assets\pieces\pack_02\w_rook.png" />
+    <Image Include="assets\piece_packs\clean.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
