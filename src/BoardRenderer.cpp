@@ -25,8 +25,32 @@ void BoardRenderer::setRenderSize(uint32_t containerHeight) {
 	}
 }
 
-const sf::Sprite& BoardRenderer::getCurrentPositionSprite() {
-	return m_lastPositionSprite;
+const sf::Sprite& BoardRenderer::getCurrentPositionSprite(Piece piece, int hoveringX, int hoveringY) {
+	if (!piece.isNone()) {
+		sf::RenderTexture boardRenderer;
+		boardRenderer.create(m_containerSize, m_containerSize);
+		boardRenderer.draw(m_lastPositionSprite);
+		auto& sprite = getSpriteFromPiece(piece);
+		sprite.setPosition(hoveringX, hoveringY);
+		boardRenderer.draw(sprite);
+		boardRenderer.display();
+
+		TexturePtr hoveringPositionTexture = std::make_shared<sf::Texture>(boardRenderer.getTexture());
+		m_textureCache["hoveringPosition"] = hoveringPositionTexture;
+		m_hoveringPositionSprite = sf::Sprite(*hoveringPositionTexture);
+	}
+	else if (!m_textureCache.contains("hoveringPosition")) {
+		sf::RenderTexture boardRenderer;
+		boardRenderer.create(m_containerSize, m_containerSize);
+		boardRenderer.draw(m_lastPositionSprite);
+		boardRenderer.display();
+
+		TexturePtr hoveringPositionTexture = std::make_shared<sf::Texture>(boardRenderer.getTexture());
+		m_textureCache["hoveringPosition"] = hoveringPositionTexture;
+		m_hoveringPositionSprite = sf::Sprite(*hoveringPositionTexture);
+	}
+
+	return m_hoveringPositionSprite;
 }
 
 void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
@@ -44,8 +68,8 @@ void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
 				drawText(std::string(1, file), i, boardRenderer, 4);
 			}
 		}
-
-		drawPiece(pieces.at(i), i, boardRenderer);
+		if (!pieces.at(i).isNone())
+			drawPiece(pieces.at(i), i, boardRenderer);
 	}
 
 	boardRenderer.display();
@@ -53,6 +77,7 @@ void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
 	TexturePtr lastPositionTexture = std::make_shared<sf::Texture>(boardRenderer.getTexture());
 	m_textureCache["lastPosition"] = lastPositionTexture;
 	m_lastPositionSprite = sf::Sprite(*lastPositionTexture); // Create new sprite in case container size changes
+	m_hoveringPositionSprite = sf::Sprite(*lastPositionTexture); // Reset sprite after releasing a hovering piece
 }
 
 void BoardRenderer::setupBoardSprite() {
@@ -102,10 +127,14 @@ void BoardRenderer::setupPieceSprites() {
 
 }
 
+sf::Sprite& BoardRenderer::getSpriteFromPiece(Piece piece)
+{
+	return m_pieceSprites.at(piece.type).at(piece.color == Piece::Color::White ? 0 : 1);
+}
+
 void BoardRenderer::drawPiece(Piece piece, int8_t square, sf::RenderTarget& target) {
 	if (square < 0 || square >= 64 || piece.type == Piece::Type::None) return;
-	auto& sprite = m_pieceSprites.at(piece.type).at(piece.color == Piece::Color::White ? 0 : 1);
-	drawSprite(sprite, square, target);
+	drawSprite(getSpriteFromPiece(piece), square, target);
 }
 
 void BoardRenderer::drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target) {

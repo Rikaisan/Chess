@@ -19,3 +19,12 @@ std::map<char, Piece::Type> Piece::FEN_MAPPINGS = {
 };
 
 Piece::Piece(Type type, Color color) : type(type), color(color) {}
+
+bool Piece::isNone() const {
+	return type == Piece::Type::None;
+}
+
+void Piece::clear() {
+	type = Piece::Type::None;
+	color = Piece::Color::White;
+}

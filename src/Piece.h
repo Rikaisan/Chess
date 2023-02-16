@@ -27,4 +27,6 @@ struct Piece {
 	Color color;
 
 	Piece(Type type = Piece::Type::None, Color color = Piece::Color::White);
+	bool isNone() const;
+	void clear();
 };

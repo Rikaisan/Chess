@@ -13,15 +13,21 @@ const std::array<Piece, 64>& BoardEngine::getRawBoard() const {
 	return m_pieces;
 }
 
+Piece BoardEngine::getPiece(uint8_t index) const
+{
+	return m_pieces.at(index);
+}
+
 void BoardEngine::placePiece(Piece piece, uint8_t index) {
 	if (index < 0 || index >= 64) return;
 	m_pieces.at(index) = piece;
 }
 
-void BoardEngine::removePiece(uint8_t index) {
-	if (index < 0 || index >= 64) return;
-	m_pieces.at(index).type = Piece::Type::None;
-	m_pieces.at(index).color = Piece::Color::White;
+bool BoardEngine::removePiece(uint8_t index) {
+	if (index < 0 || index >= 64) return false;
+	if (m_pieces.at(index).isNone()) return false;
+	m_pieces.at(index).clear();
+	return true;
 }
 
 void BoardEngine::loadFenString(std::string fenString) {
@@ -89,7 +95,7 @@ void BoardEngine::loadFenString(std::string fenString) {
 }
 
 void BoardEngine::reset() {
-	for (int8_t i{ 0 }; i < 64; ++i) m_pieces[i] = Piece();
+	for (int8_t i{ 0 }; i < 64; ++i) m_pieces.at(i).clear();
 	for (auto& [color, sides] : m_castlingRights) {
 		for (auto& side : sides) {
 			side = false;

@@ -12,8 +12,9 @@ public:
 	BoardEngine(std::string fenString);
 
 	const std::array<Piece, 64>& getRawBoard() const;
+	Piece getPiece(uint8_t index) const;
 	void placePiece(Piece piece, uint8_t index);
-	void removePiece(uint8_t index);
+	bool removePiece(uint8_t index);
 	void loadFenString(std::string fenString);
 	void reset();
 	int8_t getEnPassantPawn() const;

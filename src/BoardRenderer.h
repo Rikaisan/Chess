@@ -14,7 +14,7 @@ class BoardRenderer
 public:
 	BoardRenderer(bool drawCoordinates = true);
 	void setRenderSize(uint32_t containerHeight);
-	const sf::Sprite& getCurrentPositionSprite();
+	const sf::Sprite& getCurrentPositionSprite(Piece piece = Piece(), int hoveringX = 0, int hoveringY = 0);
 	void updatePosition(const std::array<Piece, 64>& pieces);
 private:
 	std::array<sf::Color, 2> m_boardColors = { sf::Color(0xF0D9B5FF), sf::Color(0xB58863FF) }; // Light, Dark
@@ -22,6 +22,7 @@ private:
 
 	sf::Sprite m_emptyBoardSprite;
 	sf::Sprite m_lastPositionSprite;
+	sf::Sprite m_hoveringPositionSprite;
 
 	uint32_t m_containerSize;
 	float m_cellSize;
@@ -40,6 +41,7 @@ private:
 	void setupBoardSprite();
 	void setupPieceSprites();
 
+	sf::Sprite& getSpriteFromPiece(Piece piece);
 	void drawPiece(Piece piece, int8_t square, sf::RenderTarget& target);
 	void drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target);
 	void drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position = 0);
