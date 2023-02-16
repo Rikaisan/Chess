@@ -88,8 +88,8 @@ void BoardRenderer::setupBoardSprite() {
 
 	sf::RectangleShape lightSquare(sf::Vector2f(1, 1));
 	lightSquare.setFillColor(m_boardColors.at(0));
-	for (size_t i{ 0 }; i < 8; ++i) {
-		for (size_t j{ 0 }; j < 8; ++j) {
+	for (uint8_t i{ 0 }; i < 8; ++i) {
+		for (uint8_t j{ 0 }; j < 8; ++j) {
 			if ((i + j) % 2 == 0) {
 				lightSquare.setPosition(i, j);
 				boardTexture.draw(lightSquare);
@@ -188,4 +188,8 @@ void BoardRenderer::drawCurrentPiecePack(sf::RenderTarget& target) {
 	}
 	drawSprite(m_pieceSprites.at(Piece::Type::Pawn).at(0), 43, target);
 	drawSprite(m_pieceSprites.at(Piece::Type::Pawn).at(1), 44, target);
+}
+
+void BoardRenderer::drawCellNumbers(sf::RenderTarget& target)
+{
 }

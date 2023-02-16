@@ -2,11 +2,11 @@
 
 #include "Utils.h"
 
-BoardInterface::BoardInterface(uint32_t containerWidth, bool useDefaultLayout) {
+BoardInterface::BoardInterface(int containerWidth, bool useDefaultLayout) {
 	if (useDefaultLayout) {
 		m_engine.loadFenString(DEFAULT_POSITION);
-		setContainerWidth(containerWidth);
 	}
+	setContainerWidth(m_containerWidth);
 }
 
 void BoardInterface::setContainerWidth(uint32_t width) {

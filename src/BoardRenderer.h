@@ -46,5 +46,5 @@ private:
 	void drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarget& target);
 	void drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position = 0);
 	void drawCurrentPiecePack(sf::RenderTarget& target);
-
+	void drawCellNumbers(sf::RenderTarget& target);
 };

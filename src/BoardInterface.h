@@ -4,7 +4,7 @@
 
 class BoardInterface {
 public:
-	BoardInterface(uint32_t containerWidth = 640, bool useDefaultLayout = true);
+	BoardInterface(int containerWidth = 640, bool useDefaultLayout = true);
 	void setContainerWidth(uint32_t width);
 	void loadPosition(std::string fenString);
 	bool grabPieceAt(int x, int y);
@@ -15,8 +15,8 @@ private:
 	const std::string DEFAULT_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	BoardEngine m_engine;
 	BoardRenderer m_renderer;
-	uint32_t m_containerWidth;
-	uint32_t m_cellWidth;
+	int m_containerWidth = 0;
+	int m_cellWidth = 0;
 
 	Piece m_holdedPiece;
 	uint8_t m_holdedPieceSourceCell = 0;
