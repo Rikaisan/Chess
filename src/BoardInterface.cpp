@@ -6,7 +6,7 @@ BoardInterface::BoardInterface(int containerWidth, bool useDefaultLayout) {
 	if (useDefaultLayout) {
 		m_engine.loadFenString(DEFAULT_POSITION);
 	}
-	setContainerWidth(m_containerWidth);
+	setContainerWidth(containerWidth);
 }
 
 void BoardInterface::setContainerWidth(uint32_t width) {

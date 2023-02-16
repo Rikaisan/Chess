@@ -6,7 +6,7 @@ BoardRenderer::BoardRenderer(bool drawCoordinates) {
 	m_font.loadFromFile(m_fontFile);
 }
 
-void BoardRenderer::setRenderSize(uint32_t containerHeight) {
+void BoardRenderer::setRenderSize(int containerHeight) {
 	m_containerSize = containerHeight;
 	m_cellSize = containerHeight / 8.0f;
 	m_fontSize = m_cellSize / 5.0f;
@@ -57,6 +57,7 @@ void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
 	sf::RenderTexture boardRenderer;
 	boardRenderer.create(m_containerSize, m_containerSize);
 	boardRenderer.draw(m_emptyBoardSprite);
+	drawCellNumbers(boardRenderer);
 	for (int8_t i{ 0 }; i < 64; ++i) {
 		if (m_renderCoordinates) {
 			if (i % 8 == 0) {
@@ -143,13 +144,19 @@ void BoardRenderer::drawSprite(sf::Sprite& sprite, int8_t square, sf::RenderTarg
 	target.draw(sprite);
 }
 
-void BoardRenderer::drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position) {
+void BoardRenderer::drawText(std::string string, int8_t square, sf::RenderTarget& target, uint8_t position, sf::Color customColor, bool useLargeFont) {
 	if (square < 0 || square >= 64) return;
 
 	sf::Text text;
 	text.setFont(m_font);
-	text.setCharacterSize(m_fontSize);
-	text.setFillColor(m_boardColors.at((square - (square / 8 % 2 == 0)) % 2 != 0));
+	if (useLargeFont)
+		text.setCharacterSize(m_fontSize * 2);
+	else
+		text.setCharacterSize(m_fontSize);
+	if (customColor == sf::Color::Transparent)
+		text.setFillColor(m_boardColors.at((square - (square / 8 % 2 == 0)) % 2 != 0)); // Use swapped board colors
+	else
+		text.setFillColor(customColor);
 	text.setString(string);
 
 	// Center origin
@@ -190,6 +197,6 @@ void BoardRenderer::drawCurrentPiecePack(sf::RenderTarget& target) {
 	drawSprite(m_pieceSprites.at(Piece::Type::Pawn).at(1), 44, target);
 }
 
-void BoardRenderer::drawCellNumbers(sf::RenderTarget& target)
-{
+void BoardRenderer::drawCellNumbers(sf::RenderTarget& target) {
+	for (int8_t i{ 0 }; i < 64; ++i) drawText(std::to_string(i), i, target, 0, sf::Color(0x00000020), true);
 }
