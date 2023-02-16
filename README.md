@@ -11,12 +11,14 @@ This is a work in progress chess game written in C++ using SFML.
  - [x] Working Pieces
  - [ ] Per-piece logic
  - [x] Option to enable and disable algebraic notation on the board
- - [ ] Castling
+ - [ ] Special moves (castling & en pessant)
  - [ ] Legal move logic
+ - [ ] Auto flip board option for local games
  - [ ] Customization (piece sets & board colors)
  - [ ] Ability to export games
  - [ ] Ability to import games to review them (No Eval)
  - [ ] Clock
+ - [ ] Simple online multiplayer (p2p)
  - [ ] Stockfish integration to play vs the computer
  - [ ] Different AI difficulties
 
