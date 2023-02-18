@@ -9,7 +9,7 @@ This is a work in progress chess game written in C++ using SFML.
  - [x] Rendering pieces
  - [x] *Forsyth-Edwards Notation* support to load board states
  - [x] Working Pieces
- - [ ] Per-piece logic
+ - [ ] Pseudolegal movement
  - [x] Option to enable and disable algebraic notation on the board
  - [ ] Special moves (castling & en pessant)
  - [ ] Legal move logic
