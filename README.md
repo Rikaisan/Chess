@@ -60,3 +60,7 @@ This is a work in progress chess game written in C++ using SFML.
 - Repository now includes a premake file instead of Visual Studio files
 - All dependencies are now included under /vendor
 - `.gitignore` now ignores Visual Studio files
+
+### v0.2.1
+
+- Fixed premake5 binary not being included by git
