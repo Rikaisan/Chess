@@ -2,6 +2,11 @@
 #include "Utils.h"
 
 BoardEngine::BoardEngine() {
+	for (int row = 0; row < 8; ++row) {
+		for (int rank = 0; rank < 8; ++rank) {
+			this->m_board.at(row).at(rank) = &m_pieces.at(row * 8 + rank);
+		}
+	}
 	this->reset();
 }
 
@@ -13,17 +18,17 @@ const std::array<Piece, 64>& BoardEngine::getRawBoard() const {
 	return m_pieces;
 }
 
-Piece BoardEngine::getPiece(uint8_t index) const
-{
+Piece BoardEngine::getPiece(int8_t index) const {
+	if (index < 0 || index >= 64) return Piece();
 	return m_pieces.at(index);
 }
 
-void BoardEngine::placePiece(Piece piece, uint8_t index) {
+void BoardEngine::placePiece(Piece piece, int8_t index) {
 	if (index < 0 || index >= 64) return;
 	m_pieces.at(index) = piece;
 }
 
-bool BoardEngine::removePiece(uint8_t index) {
+bool BoardEngine::removePiece(int8_t index) {
 	if (index < 0 || index >= 64) return false;
 	if (m_pieces.at(index).isNone()) return false;
 	m_pieces.at(index).clear();
@@ -103,6 +108,8 @@ void BoardEngine::reset() {
 	}
 	m_playerToMove = 0;
 	m_halfmoveClock = 0;
+	m_fullmoveCounter = 0;
+	m_enPassantPawn = -1;
 }
 
 int8_t BoardEngine::getEnPassantPawn() const {
@@ -111,4 +118,108 @@ int8_t BoardEngine::getEnPassantPawn() const {
 
 const std::array<bool, 2>& BoardEngine::getCastlingRights(Piece::Color color) const {
 	return m_castlingRights.at(color);
+}
+
+bool BoardEngine::movePiece(int8_t sourceIndex, int8_t targetIndex, bool allowGlobalMovement, bool bypassLegalCheck) {
+	if (sourceIndex >= 64 || targetIndex >= 64) return false;
+
+	Piece piece = getPiece(sourceIndex);
+	if (piece.isNone()) return false;
+	if (!getPiece(targetIndex).isNone() && piece.color == getPiece(targetIndex).color) return false;
+	Coordinates sourceCell { sourceIndex / 8, sourceIndex % 8 };
+	Piece& targetPiece = m_pieces.at(targetIndex);
+
+	bool validMove = false;
+
+	if (!allowGlobalMovement) {
+		int8_t startingIndex = 0;
+		int8_t endingIndex = 0;
+		bool applyOffsetOnce = false;
+
+		if (piece.type == Piece::Type::Pawn) {
+			if (piece.color == Piece::Color::White) {
+				startingIndex = 0;
+				endingIndex = sourceCell.row == 6 ? 4 : 3;
+			}
+			else {
+				startingIndex = 4;
+				endingIndex = sourceCell.row == 1 ? 8 : 7;
+			}
+
+			Coordinates offsetCell = { sourceCell.y, sourceCell.x };
+			for (int i = startingIndex; i < endingIndex; ++i) {
+				Coordinates offset = m_pawnOffsets.at(i);
+				offsetCell.y = sourceCell.y + offset.y;
+				offsetCell.x = sourceCell.x + offset.x;
+				if (offsetCell.x < 0 || offsetCell.y < 0 || offsetCell.x >= 8 || offsetCell.y >= 8) // Out of bounds
+					continue;
+
+				if (m_board.at(offsetCell.row).at(offsetCell.rank) == &targetPiece) {
+					if (offset.rank == 0 && !targetPiece.isNone()) // Moving forward when a piece is blocking
+						return false;
+					if (offset.rank != 0 && targetPiece.isNone()) // Moving diagonally to an empty space
+						return false;
+					m_pieces.at(targetIndex) = piece;
+					m_pieces.at(sourceIndex).clear();
+					return true;
+				}
+			}
+			return false;
+		}
+
+		if (piece.type == Piece::Type::Queen) {
+			startingIndex = 0;
+			endingIndex = 8;
+		}
+
+		if (piece.type == Piece::Type::King) {
+			startingIndex = 0;
+			endingIndex = 8;
+			applyOffsetOnce = true;
+		}
+
+		if (piece.type == Piece::Type::Bishop) {
+			startingIndex = 0;
+			endingIndex = 4;
+		}
+
+		if (piece.type == Piece::Type::Rook) {
+			startingIndex = 4;
+			endingIndex = 8;
+		}
+
+		if (piece.type == Piece::Type::Knight) {
+			startingIndex = 8;
+			endingIndex = 16;
+			applyOffsetOnce = true;
+		}
+
+		for (int8_t i{ startingIndex }; i < endingIndex; ++i) {
+			auto& offset = m_movementOffsets.at(i);
+			Coordinates offsetCell = { sourceCell.y + offset.y, sourceCell.x + offset.x };
+			if (applyOffsetOnce) {
+				if (offsetCell.x >= 0 && offsetCell.x < 8 && offsetCell.y >=0 && offsetCell.y < 8) {
+					if (m_board.at(offsetCell.row).at(offsetCell.rank) == &targetPiece) {
+						validMove = true;
+						break;
+					}
+				}
+			}
+			else {
+				while (offsetCell.x >= 0 && offsetCell.x < 8 && offsetCell.y >= 0 && offsetCell.y < 8) {
+					if (m_board.at(offsetCell.row).at(offsetCell.rank) == &targetPiece) {
+						validMove = true;
+						break;
+					}
+					offsetCell.row += offset.row;
+					offsetCell.rank += offset.rank;
+				}
+				if (validMove) break;
+			}
+		}
+		if (!validMove) return false;
+	}
+	m_pieces.at(targetIndex) = piece;
+	m_pieces.at(sourceIndex).clear();
+	return true;
 }

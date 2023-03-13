@@ -18,9 +18,8 @@ private:
 	int m_containerWidth = 0;
 	int m_cellWidth = 0;
 
-	Piece m_holdedPiece;
-	uint8_t m_holdedPieceSourceCell = 0;
+	int8_t m_holdedPiece = -1;
 
-	bool resetHoldingPiece();
+	void resetHoldingPiece();
 };
 

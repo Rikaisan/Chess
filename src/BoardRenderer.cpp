@@ -53,11 +53,11 @@ const sf::Sprite& BoardRenderer::getCurrentPositionSprite(Piece piece, int hover
 	return m_hoveringPositionSprite;
 }
 
-void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
+void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces, int8_t ignorePiece) {
 	sf::RenderTexture boardRenderer;
 	boardRenderer.create(m_containerSize, m_containerSize);
 	boardRenderer.draw(m_emptyBoardSprite);
-	drawCellNumbers(boardRenderer);
+	//drawCellNumbers(boardRenderer);
 	for (int8_t i{ 0 }; i < 64; ++i) {
 		if (m_renderCoordinates) {
 			if (i % 8 == 0) {
@@ -69,7 +69,7 @@ void BoardRenderer::updatePosition(const std::array<Piece, 64>& pieces) {
 				drawText(std::string(1, file), i, boardRenderer, 4);
 			}
 		}
-		if (!pieces.at(i).isNone())
+		if (!pieces.at(i).isNone() && i != ignorePiece)
 			drawPiece(pieces.at(i), i, boardRenderer);
 	}
 

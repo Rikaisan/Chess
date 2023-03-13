@@ -15,7 +15,7 @@ public:
 	BoardRenderer(bool drawCoordinates = true);
 	void setRenderSize(int containerHeight);
 	const sf::Sprite& getCurrentPositionSprite(Piece piece = Piece(), int hoveringX = 0, int hoveringY = 0);
-	void updatePosition(const std::array<Piece, 64>& pieces);
+	void updatePosition(const std::array<Piece, 64>& pieces, int8_t ignorePiece = -1);
 private:
 	std::array<sf::Color, 2> m_boardColors = { sf::Color(0xF0D9B5FF), sf::Color(0xB58863FF) }; // Light, Dark
 	std::unordered_map<std::string, TexturePtr> m_textureCache;

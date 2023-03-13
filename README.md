@@ -9,7 +9,7 @@ This is a work in progress chess game written in C++ using SFML.
  - [x] Rendering pieces
  - [x] *Forsyth-Edwards Notation* support to load board states
  - [x] Working Pieces
- - [ ] Pseudolegal movement
+ - [x] Pseudolegal movement
  - [x] Option to enable and disable algebraic notation on the board
  - [ ] Special moves (castling & en pessant)
  - [ ] Legal move logic
@@ -41,3 +41,9 @@ This is a work in progress chess game written in C++ using SFML.
  - Renderer can now draw pieces in places not aligned to the grid
  - Implemented methods for the Piece class that allow to check if a piece is empty/null and to reset them
  - Engine now has the option to fetch a piece at a specific square
+ ### 0.1.0
+ - Introducing Semantic Versioning! From now on, all updates will be labeled using semantic versioning instead of dates.
+ - Pieces now move using pseudo-legal moves (this doesn't include any special moves)
+ - Board Engine now has two ways of representing the board: the original 64 piece array and a 2D piece array.
+ - Board Renderer now has the ability to hide pieces, this was added so that the Board Interface hides the piece instead of deleting it while holding a piece.
+ - Board Engine now uses int8_t instead of uint8_t for piece indices.

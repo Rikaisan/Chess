@@ -26,53 +26,50 @@ bool BoardInterface::grabPieceAt(int x, int y) {
 	uint8_t rank = y / m_cellWidth;
 	uint8_t cell = rank * 8 + file;
 
-	if (m_holdedPiece.isNone()) {
+	if (m_holdedPiece == -1) {
 		Piece clickedPiece = m_engine.getPiece(cell);
 		if (clickedPiece.isNone()) return false;
 
-		m_holdedPiece = clickedPiece;
-		m_holdedPieceSourceCell = cell;
-		m_engine.removePiece(cell);
-		m_renderer.updatePosition(m_engine.getRawBoard());
+		m_holdedPiece = cell;
+		
+		m_renderer.updatePosition(m_engine.getRawBoard(), cell);
 		return true;
 	}
 
 	return false;
 }
 
-bool BoardInterface::dropPieceAt(int x, int y)
-{
-	bool invalidPlacement = false;
-	if (x < 0 || x >= m_containerWidth || y < 0 || y >= m_containerWidth) return resetHoldingPiece();
+bool BoardInterface::dropPieceAt(int x, int y) {
+	if (m_holdedPiece == -1) return false;
+	if (x < 0 || x >= m_containerWidth || y < 0 || y >= m_containerWidth) {
+		resetHoldingPiece();
+		return false;
+	}
+
 	uint8_t file = x / m_cellWidth;
 	uint8_t rank = y / m_cellWidth;
 	uint8_t cell = rank * 8 + file;
 
-	if (m_holdedPiece.isNone()) return false;
+
+	Piece holdedPiece = m_engine.getPiece(m_holdedPiece);
 
 
 	Piece pieceOnCell = m_engine.getPiece(cell);
-	if (!pieceOnCell.isNone() && m_holdedPiece.color == pieceOnCell.color) invalidPlacement = true;
 
-	if (invalidPlacement) return resetHoldingPiece();
-
-	m_engine.placePiece(m_holdedPiece, cell);
-	m_renderer.updatePosition(m_engine.getRawBoard());
-	m_holdedPiece.clear();
-	return true;
+	bool wasMoved = m_engine.movePiece(m_holdedPiece, cell);
+	resetHoldingPiece();
+	return wasMoved;
 }
 
 const sf::Sprite& BoardInterface::getSprite(int mouseX, int mouseY) {
-	return m_renderer.getCurrentPositionSprite(m_holdedPiece, mouseX, mouseY);
+	return m_renderer.getCurrentPositionSprite(m_engine.getPiece(m_holdedPiece), mouseX, mouseY);
 }
 
 void BoardInterface::loadDefaultPosition() {
 	loadPosition(DEFAULT_POSITION);
 }
 
-bool BoardInterface::resetHoldingPiece() {
-	m_engine.placePiece(m_holdedPiece, m_holdedPieceSourceCell);
+void BoardInterface::resetHoldingPiece() {
 	m_renderer.updatePosition(m_engine.getRawBoard());
-	m_holdedPiece.clear();
-	return false;
+	m_holdedPiece = -1;
 }
