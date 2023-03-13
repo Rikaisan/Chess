@@ -1,5 +1,7 @@
 
-# C++ Chess
+![Chess ++](https://rikaisan.com/img/projects/chess/logo.png)
+
+## Description
 
 This is a work in progress chess game written in C++ using SFML.
 
@@ -21,6 +23,11 @@ This is a work in progress chess game written in C++ using SFML.
 - [ ] Simple online multiplayer (p2p)
 - [ ] Stockfish integration to play vs the computer
 - [ ] Different AI difficulties
+
+## Screenshots
+
+![Neutral position screenshot](https://rikaisan.com/img/projects/chess/showcase01.png)
+![Playing screenshot](https://rikaisan.com/img/projects/chess/showcase02.png)
 
 ## Dependencies
 
@@ -64,3 +71,8 @@ This is a work in progress chess game written in C++ using SFML.
 ### v0.2.1
 
 - Fixed premake5 binary not being included by git
+
+### v0.2.2
+
+- Added images to `README.md`
+- Renamed `GenerateProjects.bat` to `Generate-VS2022.bat`
