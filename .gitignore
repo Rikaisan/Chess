@@ -1,6 +1,9 @@
 .vs/
 bin/
 bin-int/
+build/
+subprojects/*
+!subprojects/*.wrap
 *.vcxproj
 *.vcxproj.*
 *.aps
