@@ -3,13 +3,13 @@ project('chess', 'cpp',
 )
 
 src = [
-    'Chess/src/BoardEngine.cpp',
-    'Chess/src/BoardInterface.cpp',
-    'Chess/src/BoardRenderer.cpp',
-    'Chess/src/Game.cpp',
-    'Chess/src/Main.cpp',
-    'Chess/src/Piece.cpp',
-    'Chess/src/Utils.cpp'
+    'src/BoardEngine.cpp',
+    'src/BoardInterface.cpp',
+    'src/BoardRenderer.cpp',
+    'src/Game.cpp',
+    'src/Main.cpp',
+    'src/Piece.cpp',
+    'src/Utils.cpp'
 ]
 
 sfml = subproject('sfml')
