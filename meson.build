@@ -12,6 +12,12 @@ src = [
     'src/Utils.cpp'
 ]
 
+if host_machine.system() == 'windows'
+    windows = import('windows')
+    windows_resources = windows.compile_resources('Chess.rc')
+    src += windows_resources
+endif
+
 sfml = subproject('sfml')
 
 executable('chess', src, dependencies: [sfml.get_variable('sfml_dep')])
