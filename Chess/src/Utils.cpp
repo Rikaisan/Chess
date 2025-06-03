@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include <iostream>
+#include <algorithm>
 
 namespace Utils {
 	std::vector<std::string> splitString(std::string string, std::string delimiter) {
