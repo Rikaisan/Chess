@@ -3,7 +3,13 @@
 
 ## Description
 
-This is a work in progress chess game written in C++ using SFML.
+~~This is a work in progress chess game written in C++ using SFML.~~  
+This was a project I was working on while learning C++ half a decade ago, it was abandoned  
+and now (5 years later) when I finally decided to finish it I read back my old code and was  
+disgusted at what I saw. I would do a lot of things differently today, so I think it's best  
+to archive this one and start a new one from scratch.
+
+Even the board ranks are not labeled correctly...ugh.
 
 ## Feature TODO Checklist
 

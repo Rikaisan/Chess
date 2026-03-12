@@ -18,7 +18,7 @@ private:
 	int m_containerWidth = 0;
 	int m_cellWidth = 0;
 
-	int8_t m_holdedPiece = -1;
+	int8_t m_heldPiece = -1;
 
 	void resetHoldingPiece();
 };
