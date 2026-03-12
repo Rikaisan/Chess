@@ -26,11 +26,11 @@ bool BoardInterface::grabPieceAt(int x, int y) {
 	uint8_t rank = y / m_cellWidth;
 	uint8_t cell = rank * 8 + file;
 
-	if (m_holdedPiece == -1) {
+	if (m_heldPiece == -1) {
 		Piece clickedPiece = m_engine.getPiece(cell);
 		if (clickedPiece.isNone()) return false;
 
-		m_holdedPiece = cell;
+		m_heldPiece = cell;
 		
 		m_renderer.updatePosition(m_engine.getRawBoard(), cell);
 		return true;
@@ -40,7 +40,7 @@ bool BoardInterface::grabPieceAt(int x, int y) {
 }
 
 bool BoardInterface::dropPieceAt(int x, int y) {
-	if (m_holdedPiece == -1) return false;
+	if (m_heldPiece == -1) return false;
 	if (x < 0 || x >= m_containerWidth || y < 0 || y >= m_containerWidth) {
 		resetHoldingPiece();
 		return false;
@@ -51,18 +51,18 @@ bool BoardInterface::dropPieceAt(int x, int y) {
 	uint8_t cell = rank * 8 + file;
 
 
-	Piece holdedPiece = m_engine.getPiece(m_holdedPiece);
+	Piece heldPiece = m_engine.getPiece(m_heldPiece);
 
 
 	Piece pieceOnCell = m_engine.getPiece(cell);
 
-	bool wasMoved = m_engine.movePiece(m_holdedPiece, cell);
+	bool wasMoved = m_engine.movePiece(m_heldPiece, cell);
 	resetHoldingPiece();
 	return wasMoved;
 }
 
 const sf::Sprite& BoardInterface::getSprite(int mouseX, int mouseY) {
-	return m_renderer.getCurrentPositionSprite(m_engine.getPiece(m_holdedPiece), mouseX, mouseY);
+	return m_renderer.getCurrentPositionSprite(m_engine.getPiece(m_heldPiece), mouseX, mouseY);
 }
 
 void BoardInterface::loadDefaultPosition() {
@@ -71,5 +71,5 @@ void BoardInterface::loadDefaultPosition() {
 
 void BoardInterface::resetHoldingPiece() {
 	m_renderer.updatePosition(m_engine.getRawBoard());
-	m_holdedPiece = -1;
+	m_heldPiece = -1;
 }
